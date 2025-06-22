@@ -15,6 +15,8 @@ import { ref } from 'vue'
 import type { FormConfig, FieldsType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
+
 const formConfig = ref<FormConfig>({
   id: '1',
   title: {
@@ -47,8 +49,9 @@ const handleSubmit = async () => {
 const formData = ref({
   name: 'hh',
 })
-const fields: FieldsType[] = [
+const fields: FieldsType[] = ref([
   {
+    id: uuidv4(),
     type: 'input',
     label: 'Name',
     component: 'field-input',
@@ -57,7 +60,7 @@ const fields: FieldsType[] = [
     labelPosition: 'right',
     labelWidth: 100,
   },
-]
+])
 </script>
 
 <style lang="scss" scoped></style>

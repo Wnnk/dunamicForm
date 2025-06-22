@@ -1,20 +1,15 @@
-<!-- 
+<!--
   @description: 处理递归渲染表单项和components动态渲染
 -->
 
 <template>
-  <div></div>
+  <div class="form-item"></div>
 </template>
 
 <script setup lang="ts">
-import type { FieldsType } from './type'
-import type { PropType } from 'vue'
+import { inject } from 'vue'
 
-const props = defineProps({
-  field: {
-    type: Object as PropType<FieldsType>,
-  },
-})
+const fields = inject('fields')
 
 const componentMap = {
   'field-input': () => import('./FieldInput.vue'),
@@ -22,4 +17,8 @@ const componentMap = {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.form-item {
+  width: 100%;
+}
+</style>

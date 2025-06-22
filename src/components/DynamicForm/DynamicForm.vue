@@ -4,6 +4,7 @@
       <div class="title" v-if="formConfig.title" :style="titleStyle">
         {{ formConfig.title.label }}
       </div>
+      <form-item-recursive></form-item-recursive>
       <el-form-item>
         <el-button type="primary" @click="handleSubmit">{{
           formConfig.layout?.btn?.submitBtnText || '提交'
@@ -17,8 +18,9 @@
 </template>
 
 <script setup lang="ts">
+import FormItemRecursive from './FormItemRecursive.vue'
 import { schemaProps } from './type'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, provide } from 'vue'
 import _ from 'lodash'
 const props = defineProps(schemaProps)
 const emit = defineEmits(['submit', 'update:modelValue'])
@@ -28,6 +30,8 @@ const formConfig = computed(() => {
 const fields = computed(() => {
   return props.fields
 })
+provide('formConfig', formConfig)
+provide('fields', fields)
 
 const titleStyle = computed(() => {
   if (!formConfig.value.title) return {}

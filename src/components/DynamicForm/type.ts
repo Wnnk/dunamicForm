@@ -57,6 +57,7 @@ type LayoutType = {
 }
 
 export type FieldsType = {
+  id: string // 字段id
   type: string // 字段类型
   label: string // 字段标签
   defaultValue?: unknown // 字段默认值
