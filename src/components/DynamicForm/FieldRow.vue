@@ -5,7 +5,7 @@
 <template>
   <el-col :span="24">
     <div class="field-row">
-      <slot name="default"></slot>
+      <slot name="default" class="field-row-content"></slot>
     </div>
   </el-col>
 </template>
@@ -19,5 +19,6 @@ defineOptions({
 <style lang="scss" scoped>
 .field-row {
   width: 100%;
+  padding: 12px;
 }
 </style>

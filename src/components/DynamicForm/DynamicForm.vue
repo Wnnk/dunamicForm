@@ -4,8 +4,8 @@
       <div class="title" v-if="formConfig.title" :style="titleStyle">
         {{ formConfig.title.label }}
       </div>
-      <form-item-recursive></form-item-recursive>
-      <el-form-item>
+      <form-item :fields="fields"></form-item>
+      <el-form-item class="submit-btn">
         <el-button type="primary" @click="handleSubmit">{{
           formConfig.layout?.btn?.submitBtnText || '提交'
         }}</el-button>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import FormItemRecursive from './FormItemRecursive.vue'
+import FormItem from './FormItem.vue'
 import { schemaProps } from './type'
 import { computed, ref, watch, provide } from 'vue'
 import _ from 'lodash'
@@ -30,8 +30,6 @@ const formConfig = computed(() => {
 const fields = computed(() => {
   return props.fields
 })
-provide('formConfig', formConfig)
-provide('fields', fields)
 
 const titleStyle = computed(() => {
   if (!formConfig.value.title) return {}
@@ -44,6 +42,10 @@ const titleStyle = computed(() => {
 })
 
 const localData = ref(_.cloneDeep(props.modelValue))
+
+provide('formConfig', formConfig)
+provide('fields', fields)
+provide('localData', localData)
 
 watch(
   () => props.modelValue,
@@ -80,4 +82,14 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.dynamic-form {
+  width: 1200px;
+  border: 1px solid #dcdfe6;
+}
+.submit-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

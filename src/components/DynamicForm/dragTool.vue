@@ -4,13 +4,14 @@
 
 <template>
   <div class="drag-tool">
-    <div class="drag-left">
+    <!-- <div class="drag-mask"></div> -->
+    <!-- <div class="drag-left">
       <div class="drag-btn">
         <i class="drag-icon icon-move">
           <el-icon><Rank /></el-icon>
         </i>
       </div>
-    </div>
+    </div> -->
     <div class="drag-right">
       <div class="drag-btn drag-danger">
         <i class="drag-icon icon-delete"
@@ -39,17 +40,26 @@
   z-index: 0;
 }
 
-.drag-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 19;
-}
+// .drag-mask {
+//   z-index: 19;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+// }
+
+// .drag-left {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   z-index: 20;
+// }
 .drag-right {
   position: absolute;
   right: 2px;
   top: calc(100% - 20px);
-  z-index: 19;
+  z-index: 20;
 }
 .drag-btn {
   height: 18px;

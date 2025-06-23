@@ -49,15 +49,50 @@ const handleSubmit = async () => {
 const formData = ref({
   name: 'hh',
 })
-const fields: FieldsType[] = ref([
+
+const fields = ref<FieldsType[]>([
+  {
+    id: uuidv4(),
+    type: 'row',
+    label: '',
+    prop: '',
+    children: [
+      {
+        id: uuidv4(),
+        type: 'input',
+        label: 'Name',
+        prop: 'name',
+        colSpan: 12,
+        labelPosition: 'left',
+        labelWidth: 150,
+      },
+      {
+        id: uuidv4(),
+        type: 'select',
+        label: 'Gender',
+        prop: 'gender',
+        colSpan: 12,
+        labelPosition: 'right',
+        labelWidth: 100,
+      },
+      {
+        id: uuidv4(),
+        type: 'input',
+        label: 'Age',
+        prop: 'age',
+        colSpan: 12,
+        labelPosition: 'right',
+        labelWidth: 100,
+      },
+    ],
+  },
   {
     id: uuidv4(),
     type: 'input',
-    label: 'Name',
-    component: 'field-input',
-    defaultValue: '',
+    label: 'Email',
+    prop: 'email',
     colSpan: 12,
-    labelPosition: 'right',
+    labelPosition: 'top',
     labelWidth: 100,
   },
 ])

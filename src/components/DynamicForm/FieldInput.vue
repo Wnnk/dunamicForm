@@ -1,29 +1,25 @@
 <template>
-  <div>
-    <el-input v-model="value" placeholder="{{ label }}"></el-input>
-  </div>
+  <el-form-item v-bind="{ ...field }">
+    <el-input v-model="localData[field.prop]"></el-input>
+  </el-form-item>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineOptions, computed } from 'vue'
+import { defineProps, defineOptions, computed, inject } from 'vue'
+import type { FieldsType } from './type'
 defineOptions({
   name: 'FieldInput',
 })
 
+const localData = inject('localData') as any
+
 const props = defineProps({
-  label: {
-    type: String,
-    default: '',
-    required: true,
-  },
-  modelValue: {
-    type: [String, Number, Boolean],
-    default: '',
+  field: {
+    type: Object as () => FieldsType,
     required: true,
   },
 })
-const value = computed(() => props.modelValue)
-// const emit = defineEmits(['update:modelValue'])
+const field = computed(() => props.field)
 </script>
 
 <style lang="scss" scoped></style>

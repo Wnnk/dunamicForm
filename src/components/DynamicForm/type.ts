@@ -58,8 +58,9 @@ type LayoutType = {
 
 export type FieldsType = {
   id: string // 字段id
-  type: string // 字段类型
+  type: 'input' | 'select' | 'row'
   label: string // 字段标签
+  prop: string // 字段属性
   defaultValue?: unknown // 字段默认值
   colSpan?: number
   visible?: true | false
@@ -69,7 +70,6 @@ export type FieldsType = {
   size?: 'large' | 'default' | 'small'
   rules?: object
   labelPosition?: 'top' | 'left' | 'right'
-  component: string
   children?: FieldsType[]
 }
 
