@@ -1,6 +1,6 @@
 <template>
-  <el-form-item v-bind="{ ...field }">
-    <el-input v-model="localData[field.prop]"></el-input>
+  <el-form-item v-bind="itemStyle">
+    <el-input v-model="localData[field.id]" v-bind="field.props"></el-input>
   </el-form-item>
 </template>
 
@@ -20,6 +20,13 @@ const props = defineProps({
   },
 })
 const field = computed(() => props.field)
+const itemStyle = computed(() => {
+  const style = {
+    ...props.field,
+  }
+  delete style.props
+  return style
+})
 </script>
 
 <style lang="scss" scoped></style>

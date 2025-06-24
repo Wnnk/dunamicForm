@@ -58,10 +58,10 @@ type LayoutType = {
 
 export type FieldsType = {
   id: string // 字段id
-  type: 'input' | 'select' | 'row'
+  type: 'input' | 'select' | 'row' | 'radio'
   label: string // 字段标签
-  prop: string // 字段属性
-  defaultValue?: unknown // 字段默认值
+  prop: string // el-form-item的prop属性
+  props?: PropsType // 组件字段属性
   colSpan?: number
   visible?: true | false
   disabled?: boolean
@@ -71,6 +71,17 @@ export type FieldsType = {
   rules?: object
   labelPosition?: 'top' | 'left' | 'right'
   children?: FieldsType[]
+}
+
+type PropsType = {
+  [key: string]: string | number | boolean | undefined | OptionsType[]
+  options?: OptionsType[]
+}
+
+type OptionsType = {
+  label: string
+  value: string | number | boolean
+  disabled?: boolean
 }
 
 type submitType = {

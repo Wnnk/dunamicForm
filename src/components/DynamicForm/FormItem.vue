@@ -29,11 +29,12 @@ const props = defineProps({
 })
 const fields = computed(() => props.fields)
 
-type ComponentType = 'input' | 'select' | 'row'
+type ComponentType = 'input' | 'select' | 'row' | 'radio'
 const componentMap = {
   input: defineAsyncComponent(() => import('./FieldInput.vue')),
   select: defineAsyncComponent(() => import('./FieldSelect.vue')),
   row: defineAsyncComponent(() => import('./FieldRow.vue')),
+  radio: defineAsyncComponent(() => import('./FieldRadio.vue')),
 }
 
 const getComponent = (type: ComponentType) => {
