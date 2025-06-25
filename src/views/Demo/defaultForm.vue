@@ -20,10 +20,11 @@ import { v4 as uuidv4 } from 'uuid'
 const formConfig = ref<FormConfig>({
   id: '1',
   title: {
-    label: 'Basic Form',
+    label: 'Basic Form Title',
     fontSize: '24px',
     color: 'blue',
     align: 'center',
+    subLabel: 'This is a sub-label',
   },
   layout: {
     btn: {
@@ -121,7 +122,7 @@ const fields = ref<FieldsType[]>([
   {
     id: uuidv4(),
     type: 'radio',
-    label: 'AAA',
+    label: '单选框',
     prop: 'radio',
     props: {
       options: [
@@ -130,9 +131,48 @@ const fields = ref<FieldsType[]>([
         { label: 'Option C', value: 'c' },
       ],
     },
-    colSpan: 24,
+    colSpan: 12,
     labelPosition: 'left',
     labelWidth: 120,
+  },
+  {
+    id: uuidv4(),
+    type: 'checkbox',
+    label: '多选框',
+    prop: 'happly',
+    props: {
+      checkAll: true,
+      options: [
+        { label: '多选 A', value: 'a' },
+        { label: '多选 B', value: 'b' },
+        { label: '多选 C', value: 'c' },
+        { label: '多选 D', value: 'd', disabled: true },
+      ],
+    },
+    colSpan: 20,
+  },
+  {
+    id: uuidv4(),
+    type: 'switch',
+    label: '开关',
+    prop: 'switch',
+    props: {
+      activeText: '开',
+      inactiveText: '关',
+    },
+    colSpan: 4,
+  },
+  {
+    id: uuidv4(),
+    type: 'colorPick',
+    label: '颜色选择器',
+    prop: 'colorPick',
+    props: {
+      showAlpha: true,
+      predefine: ['#ff4500', '#ff8c00'],
+      size: 'large',
+    },
+    colSpan: 4,
   },
 ])
 
@@ -141,7 +181,6 @@ const fields = ref<FieldsType[]>([
 // 生成初始 formData 的函数
 function generateFormData(fields: FieldsType[]): Record<string, any> {
   const formData: Record<string, any> = {}
-
   // 递归处理字段配置
   const processFields = (fieldList: FieldsType[]) => {
     fieldList.forEach((field) => {
@@ -153,9 +192,22 @@ function generateFormData(fields: FieldsType[]): Record<string, any> {
         // 这里可以根据 field.type 设置不同的初始值
         switch (field.type) {
           case 'input':
+            formData[field.id] = ''
+            break
           case 'select':
             formData[field.id] = ''
             break
+          case 'checkbox':
+            formData[field.id] = []
+            break
+          case 'radio':
+            formData[field.id] = ''
+            break
+          case 'switch':
+            formData[field.id] = false
+            break
+          case 'colorPick':
+            formData[field.id] = ''
           default:
             formData[field.id] = null
         }

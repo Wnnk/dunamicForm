@@ -3,6 +3,7 @@
     <el-form :model="localData" v-bind="formStyle">
       <div class="title" v-if="formConfig.title" :style="titleStyle">
         {{ formConfig.title.label }}
+        <div v-if="formConfig.title.subLabel">{{ formConfig.title.subLabel }}</div>
       </div>
       <form-item :fields="fields"></form-item>
       <el-form-item class="submit-btn">

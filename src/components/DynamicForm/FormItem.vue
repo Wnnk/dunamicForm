@@ -20,7 +20,7 @@
 import dragTool from '@/components/DynamicForm/dragTool.vue'
 import type { PropType } from 'vue'
 import { defineAsyncComponent, computed } from 'vue'
-import type { FieldsType } from './type'
+import type { FieldsType, ComponentType } from './type'
 const props = defineProps({
   fields: {
     type: Array as PropType<FieldsType[]>,
@@ -29,12 +29,14 @@ const props = defineProps({
 })
 const fields = computed(() => props.fields)
 
-type ComponentType = 'input' | 'select' | 'row' | 'radio'
 const componentMap = {
   input: defineAsyncComponent(() => import('./FieldInput.vue')),
   select: defineAsyncComponent(() => import('./FieldSelect.vue')),
   row: defineAsyncComponent(() => import('./FieldRow.vue')),
   radio: defineAsyncComponent(() => import('./FieldRadio.vue')),
+  checkbox: defineAsyncComponent(() => import('./FieldCheckBox.vue')),
+  switch: defineAsyncComponent(() => import('./FieldSwitch.vue')),
+  colorPick: defineAsyncComponent(() => import('./FiedldColorPicker.vue')),
 }
 
 const getComponent = (type: ComponentType) => {
