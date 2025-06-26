@@ -37,6 +37,10 @@ const componentMap = {
   checkbox: defineAsyncComponent(() => import('./FieldCheckBox.vue')),
   switch: defineAsyncComponent(() => import('./FieldSwitch.vue')),
   colorPick: defineAsyncComponent(() => import('./FiedldColorPicker.vue')),
+  dateTimePicker: defineAsyncComponent(() => import('./FieldDateTimePicker.vue')),
+  datePicker: defineAsyncComponent(() => import('./FieldDatePicker.vue')),
+  upload: defineAsyncComponent(() => import('./FieldUpload.vue')),
+  divider: defineAsyncComponent(() => import('./FieldDivider.vue')),
 }
 
 const getComponent = (type: ComponentType) => {

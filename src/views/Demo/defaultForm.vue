@@ -174,6 +174,54 @@ const fields = ref<FieldsType[]>([
     },
     colSpan: 4,
   },
+  {
+    id: uuidv4(),
+    type: 'dateTimePicker',
+    label: '日期时间选择器',
+    prop: 'dateTimePicker',
+    props: {
+      type: 'datetimerange',
+      placeholder: '请选择日期时间',
+      format: 'YYYY/MM/DD HH:mm:ss',
+      startPlaceholder: 'Start date',
+      endPlaceholder: 'End date',
+      dateFormat: 'YYYY/MM/DD ddd',
+      timeFormat: 'A hh:mm:ss',
+    },
+    colSpan: 10,
+  },
+  {
+    id: uuidv4(),
+    type: 'datePicker',
+    label: '日期选择器',
+    prop: 'datePicker',
+    props: {},
+    colSpan: 10,
+  },
+  {
+    id: uuidv4(),
+    type: 'upload',
+    label: '文件上传',
+    prop: 'upload',
+    props: {
+      action: 'http://127.0.0.1:4523/m1/6597638-6303329-default/upload',
+      multiple: true,
+      limit: 3,
+      accept: 'text/plain',
+      name: 'file',
+    },
+  },
+  {
+    id: uuidv4(),
+    type: 'divider',
+    label: '',
+    prop: '',
+    props: {
+      direction: 'horizontal',
+      contentPosition: 'left',
+      label: '分割线',
+    },
+  },
 ])
 
 /* 根据field ID获取字段值 */
@@ -208,6 +256,16 @@ function generateFormData(fields: FieldsType[]): Record<string, any> {
             break
           case 'colorPick':
             formData[field.id] = ''
+            break
+          case 'dateTimePicker':
+            formData[field.id] = ''
+            break
+          case 'datePicker':
+            formData[field.id] = ''
+            break
+          case 'upload':
+            formData[field.id] = []
+            break
           default:
             formData[field.id] = null
         }

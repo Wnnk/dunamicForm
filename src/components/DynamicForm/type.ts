@@ -58,7 +58,7 @@ type LayoutType = {
 
 export type FieldsType = {
   id: string // 字段id
-  type: 'input' | 'select' | 'row' | 'radio' | 'checkbox' | 'switch' | 'colorPick'
+  type: ComponentType // 字段类型
   label: string // 字段标签
   prop: string // el-form-item的prop属性
   props?: PropsType // 组件字段属性
@@ -81,6 +81,10 @@ export type ComponentType =
   | 'checkbox'
   | 'switch'
   | 'colorPick'
+  | 'dateTimePicker'
+  | 'datePicker'
+  | 'upload'
+  | 'divider'
 
 type PropsType = {
   [key: string]: string | number | boolean | undefined | OptionsType[] | string[]
