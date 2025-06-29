@@ -1,8 +1,5 @@
 <template>
-  <el-tabs>
-    <el-tab-pane label="组件"></el-tab-pane>
-    <el-tab-pane label="大纲"></el-tab-pane>
-  </el-tabs>
+  <div class="">Outline Main</div>
 </template>
 
 <script setup lang="ts">
