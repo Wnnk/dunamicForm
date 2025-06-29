@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Default Form</h1>
+  <div class="default-form">
+    <AsideMenu />
     <DynamicForm
       :formConfig="formConfig"
       v-model:modelValue="formData"
@@ -16,6 +16,7 @@ import type { FormConfig, FieldsType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import AsideMenu from '@/components/Menu/AsideMenu.vue'
 
 const formConfig = ref<FormConfig>({
   id: '1',
@@ -63,4 +64,10 @@ const fields: FieldsType[] = ref([
 ])
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.default-form {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+</style>
