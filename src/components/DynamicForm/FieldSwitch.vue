@@ -1,5 +1,5 @@
 <template>
-  <el-form-item v-bind="itemStyle">
+  <el-form-item v-bind="itemStyle" :prop="field.id">
     <el-switch v-model="localData[field.id]" v-bind="field.props"></el-switch>
   </el-form-item>
 </template>

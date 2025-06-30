@@ -7,7 +7,7 @@
   >
     全选
   </el-checkbox>
-  <el-form-item v-bind="itemStyle">
+  <el-form-item v-bind="itemStyle" :prop="field.id">
     <el-checkbox-group v-model="localData[field.id]">
       <el-checkbox
         v-for="option in field.props?.options"

@@ -1,5 +1,5 @@
 <template>
-  <el-form-item v-bind="itemStyle">
+  <el-form-item v-bind="itemStyle" :prop="field.id">
     <el-divider>{{ field.props?.label }}</el-divider>
   </el-form-item>
 </template>

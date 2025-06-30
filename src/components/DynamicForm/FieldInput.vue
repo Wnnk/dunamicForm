@@ -1,11 +1,16 @@
 <template>
-  <el-form-item v-bind="itemStyle">
-    <el-input v-model="localData[field.id]" v-bind="field.props"></el-input>
+  <el-form-item v-bind="itemStyle" :prop="field.id">
+    <el-input
+      v-model.number="localData[field.id]"
+      v-bind="field.props"
+      v-if="field.props?.type === 'number'"
+    ></el-input>
+    <el-input v-else v-model="localData[field.id]" v-bind="field.props"></el-input>
   </el-form-item>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineOptions, computed, inject } from 'vue'
+import { defineProps, defineOptions, computed, inject, watch } from 'vue'
 import type { FieldsType } from './type'
 defineOptions({
   name: 'FieldInput',
@@ -25,8 +30,18 @@ const itemStyle = computed(() => {
     ...props.field,
   }
   delete style.props
+  delete style.prop
   return style
 })
+watch(
+  () => localData.value[field.value.id],
+  (val) => {
+    console.log(typeof val)
+  },
+  {
+    deep: true,
+  },
+)
 </script>
 
 <style lang="scss" scoped></style>

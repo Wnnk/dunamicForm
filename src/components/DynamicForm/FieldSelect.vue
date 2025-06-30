@@ -3,7 +3,7 @@
 -->
 
 <template>
-  <el-form-item v-bind="itemStyle">
+  <el-form-item v-bind="itemStyle" :prop="field.id">
     <el-select v-model="localData[field.id]" v-bind="field.props">
       <el-option
         v-for="item in field.props?.options"

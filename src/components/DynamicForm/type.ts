@@ -60,7 +60,7 @@ export type FieldsType = {
   id: string // 字段id
   type: ComponentType // 字段类型
   label: string // 字段标签
-  prop: string // el-form-item的prop属性
+  prop?: string // el-form-item的prop属性
   props?: PropsType // 组件字段属性
   colSpan?: number
   visible?: true | false

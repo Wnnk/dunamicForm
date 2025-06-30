@@ -15,7 +15,7 @@ import { ref } from 'vue'
 import type { FormConfig, FieldsType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4, validate } from 'uuid'
 
 const formConfig = ref<FormConfig>({
   id: '1',
@@ -75,6 +75,7 @@ const fields = ref<FieldsType[]>([
         id: uuidv4(),
         type: 'select',
         label: 'Gender',
+        rules: [{ required: true, message: 'Please select your gender' }],
         prop: 'gender',
         props: {
           filterable: true,
@@ -95,6 +96,13 @@ const fields = ref<FieldsType[]>([
         id: uuidv4(),
         type: 'input',
         label: 'Age',
+        rules: [
+          {
+            validator: (rule: any, value: number) => value > 18,
+            message: 'Please enter a valid age',
+          },
+          { required: true, message: 'Please enter your age' },
+        ],
         props: {
           type: 'number',
           suffixIcon: 'Calendar',
@@ -110,6 +118,14 @@ const fields = ref<FieldsType[]>([
     id: uuidv4(),
     type: 'input',
     label: 'Email',
+    rules: [
+      { required: true, message: '请输入邮箱', trigger: 'blur' },
+      {
+        pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        message: '请输入正确的邮箱格式',
+        trigger: 'blur',
+      },
+    ],
     props: {
       type: 'password',
       showPassword: true,

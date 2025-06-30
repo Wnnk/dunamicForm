@@ -1,5 +1,5 @@
 <template>
-  <el-form-item v-bind="itemStyle">
+  <el-form-item v-bind="itemStyle" :prop="field.id">
     <el-upload class="filed-upload" v-if="field.props?.accept === 'image/*'">
       <el-icon class="upload-icon"><Plus /></el-icon>
     </el-upload>
