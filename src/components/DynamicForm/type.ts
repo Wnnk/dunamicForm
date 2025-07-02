@@ -62,6 +62,7 @@ export type FieldsType = {
   label: string // 字段标签
   prop?: string // el-form-item的prop属性
   props?: PropsType // 组件字段属性
+  events?: Partial<EventsType[ComponentType]> // 组件事件
   colSpan?: number
   visible?: true | false
   disabled?: boolean
@@ -85,11 +86,76 @@ export type ComponentType =
   | 'datePicker'
   | 'upload'
   | 'divider'
+  | 'inputNumber'
 
 type PropsType = {
   [key: string]: string | number | boolean | undefined | OptionsType[] | string[]
   options?: OptionsType[]
 }
+
+export type EventsType = {
+  inputNumber: {
+    change?: (currentValue: number | undefined, oldValue: number | undefined) => void
+    blur?: (event: FocusEvent) => void
+    focus?: (event: FocusEvent) => void
+  }
+  input: {
+    change?: (value: string | number) => void
+    blur?: (event: FocusEvent) => void
+    focus?: (event: FocusEvent) => void
+    input?: (value: string | number) => void
+    clear?: () => void
+  }
+  select: {
+    change?: (value: any) => void
+    visibleChange?: (visible: boolean) => void
+    removeTag?: (tagValue: any) => void
+    clear?: () => void
+    bulr?: (event: FocusEvent) => void
+    focus?: (event: FocusEvent) => void
+    popupScroll?: (data: { scrollTop: number; scrollLeft: number }) => void
+  }
+  radio: {
+    change?: (value: string | number | boolean) => void
+  }
+  checkbox: {
+    change?: (value: string | number | boolean) => void
+  }
+  switch: {
+    focus?: () => void
+  }
+  colorPick: {
+    change?: (value: string) => void
+  }
+  dateTimePicker: {
+    change?: (value: string) => void
+    blur?: (e: FocusEvent) => void
+    focus?: (e: FocusEvent) => void
+    clear?: () => void
+    calendarChange?: (val: [Date, null | Date]) => void
+    visibleChange?: (visibility: boolean) => void
+  }
+  datePicker: {
+    change?: (value: string) => void
+    blur?: (e: FocusEvent) => void
+    focus?: (e: FocusEvent) => void
+    clear?: () => void
+    calendarChange?: (val: [Date, null | Date]) => void
+    panelChange?: (date: Date | [Date, Date], mode: 'month' | 'year', view?: string) => void
+    visibleChange?: (visibility: boolean) => void
+  }
+  upload: {
+    change?: (value: string | number | boolean | undefined) => void
+  }
+  divider: {
+    click?: (event: MouseEvent) => void
+  }
+  row: {
+    click?: (event: MouseEvent) => void
+  }
+}
+
+export type ComponentEventsType = keyof EventsType
 
 type OptionsType = {
   label: string

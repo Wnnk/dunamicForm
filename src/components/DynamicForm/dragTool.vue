@@ -13,7 +13,7 @@
       </div>
     </div> -->
     <div class="drag-right">
-      <div class="drag-btn drag-danger">
+      <div class="drag-btn drag-danger" @click="removeField(props.field.id)">
         <i class="drag-icon icon-delete"
           ><el-icon><Delete /></el-icon
         ></i>
@@ -23,7 +23,18 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { inject } from 'vue'
+import type { FieldsType } from './type'
+import type { PropType } from 'vue'
+const props = defineProps({
+  field: {
+    type: Object as PropType<FieldsType>,
+    required: true,
+  },
+})
+const removeField = inject('removeField') as (id: string) => void
+</script>
 
 <style lang="scss" scoped>
 .drag-tool {

@@ -5,7 +5,7 @@
 <template>
   <el-row :gutter="20">
     <el-col class="form-item" v-for="field in fields" :key="field.id" :span="field.colSpan || 24">
-      <dragTool>
+      <dragTool :field="field">
         <component :is="getComponent(field.type)" :field="field">
           <div v-if="field.children && field.children.length > 0">
             <FormItem :fields="field.children"></FormItem>
@@ -21,6 +21,7 @@ import dragTool from '@/components/DynamicForm/dragTool.vue'
 import type { PropType } from 'vue'
 import { defineAsyncComponent, computed } from 'vue'
 import type { FieldsType, ComponentType } from './type'
+
 const props = defineProps({
   fields: {
     type: Array as PropType<FieldsType[]>,
@@ -41,6 +42,7 @@ const componentMap = {
   datePicker: defineAsyncComponent(() => import('./FieldDatePicker.vue')),
   upload: defineAsyncComponent(() => import('./FieldUpload.vue')),
   divider: defineAsyncComponent(() => import('./FieldDivider.vue')),
+  inputNumber: defineAsyncComponent(() => import('./FieldInputNumber.vue')),
 }
 
 const getComponent = (type: ComponentType) => {

@@ -1,48 +1,39 @@
 <template>
   <el-form-item v-bind="itemStyle" :prop="field.id">
-    <el-input
-      v-model.number="localData[field.id]"
+    <el-input-number
+      v-model="localData[field.id]"
       v-bind="field.props"
       v-on="field.events"
-      v-if="field.props?.type === 'number'"
-    ></el-input>
-    <el-input v-else v-model="localData[field.id]" v-bind="field.props"></el-input>
+    ></el-input-number>
   </el-form-item>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineOptions, computed, inject, watch } from 'vue'
 import type { FieldsType } from './type'
+import { computed, inject } from 'vue'
+
 defineOptions({
-  name: 'FieldInput',
+  name: 'FieldNumberInput',
 })
-
-const localData = inject('localData') as any
-
 const props = defineProps({
   field: {
     type: Object as () => FieldsType,
     required: true,
   },
 })
+
 const field = computed(() => props.field)
+
 const itemStyle = computed(() => {
   const style = {
     ...props.field,
   }
   delete style.props
-  delete style.prop
+  delete style.events
   return style
 })
-watch(
-  () => localData.value[field.value.id],
-  (val) => {
-    console.log(typeof val)
-  },
-  {
-    deep: true,
-  },
-)
+
+const localData = inject('localData') as Record<string, any>
 </script>
 
 <style lang="scss" scoped></style>

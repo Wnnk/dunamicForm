@@ -15,7 +15,7 @@ import { ref } from 'vue'
 import type { FormConfig, FieldsType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
-import { v4 as uuidv4, validate } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 const formConfig = ref<FormConfig>({
   id: '1',
@@ -96,6 +96,11 @@ const fields = ref<FieldsType[]>([
         id: uuidv4(),
         type: 'input',
         label: 'Age',
+        events: {
+          change: (value: string | number) => {
+            console.log(value)
+          },
+        },
         rules: [
           {
             validator: (rule: any, value: number) => value > 18,
@@ -134,6 +139,24 @@ const fields = ref<FieldsType[]>([
     colSpan: 12,
     labelPosition: 'top',
     labelWidth: 100,
+  },
+  {
+    id: uuidv4(),
+    type: 'inputNumber',
+    label: '数字输入框',
+    prop: 'inputNumber',
+    events: {
+      change: (currentValue: number | undefined, oldvalue: number | undefined) => {
+        console.log(currentValue, oldvalue)
+      },
+    },
+    props: {
+      min: 0,
+      max: 100,
+      step: 2,
+      precision: 0,
+    },
+    colSpan: 12,
   },
   {
     id: uuidv4(),
@@ -281,6 +304,9 @@ function generateFormData(fields: FieldsType[]): Record<string, any> {
             break
           case 'upload':
             formData[field.id] = []
+            break
+          case 'inputNumber':
+            formData[field.id] = 0
             break
           default:
             formData[field.id] = null

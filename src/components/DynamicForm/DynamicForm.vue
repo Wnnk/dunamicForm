@@ -22,6 +22,7 @@
 import FormItem from './FormItem.vue'
 import { schemaProps } from './type'
 import { computed, ref, watch, provide } from 'vue'
+import type { FieldsType } from './type'
 import _ from 'lodash'
 const props = defineProps(schemaProps)
 const emit = defineEmits(['submit', 'update:modelValue'])
@@ -77,9 +78,26 @@ const getFormValue = () => {
   return localData.value
 }
 
+const removeField = (id: string, arr: FieldsType[] = fields.value) => {
+  arr.forEach((item: FieldsType, index: number) => {
+    if (item.id === id) {
+      arr.splice(index, 1)
+      return true
+    }
+    if (item.children && item.children.length > 0) {
+      if (removeField(id, item.children)) {
+        return true
+      }
+    }
+  })
+  return false
+}
+provide('removeField', removeField)
+
 defineExpose({
   getFormValue,
   resetForm,
+  removeField,
 })
 </script>
 
