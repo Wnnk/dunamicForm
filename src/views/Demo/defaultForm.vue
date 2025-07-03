@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 import type { FormConfig, FieldsType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
@@ -260,6 +260,11 @@ const fields = ref<FieldsType[]>([
       contentPosition: 'left',
       label: '分割线',
     },
+  },
+  {
+    id: uuidv4(),
+    type: () => h('div', { style: 'color: red' }, '~~~自定义组件~~~'),
+    label: '自定义组件',
   },
 ])
 

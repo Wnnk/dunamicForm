@@ -87,6 +87,7 @@ export type ComponentType =
   | 'upload'
   | 'divider'
   | 'inputNumber'
+  | ((...args: any[]) => any)
 
 type PropsType = {
   [key: string]: string | number | boolean | undefined | OptionsType[] | string[]

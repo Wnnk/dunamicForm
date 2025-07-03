@@ -1,6 +1,6 @@
 <template>
   <div class="dynamic-form">
-    <el-form :model="localData" v-bind="formStyle">
+    <el-form :model="localData" v-bind="formStyle" ref="dynamicFormRef">
       <div class="title" v-if="formConfig.title" :style="titleStyle">
         {{ formConfig.title.label }}
         <div v-if="formConfig.title.subLabel">{{ formConfig.title.subLabel }}</div>
@@ -57,6 +57,8 @@ watch(
   { deep: true },
 )
 
+const dynamicFormRef = ref()
+
 const formStyle = computed(() => {
   if (!formConfig.value.layout) return {}
   const style = {
@@ -94,10 +96,15 @@ const removeField = (id: string, arr: FieldsType[] = fields.value) => {
 }
 provide('removeField', removeField)
 
+const validate = (...args: any) => {
+  return dynamicFormRef.value?.validate(...args)
+}
+
 defineExpose({
   getFormValue,
   resetForm,
   removeField,
+  validate,
 })
 </script>
 

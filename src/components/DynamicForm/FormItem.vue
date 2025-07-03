@@ -6,11 +6,13 @@
   <el-row :gutter="20">
     <el-col class="form-item" v-for="field in fields" :key="field.id" :span="field.colSpan || 24">
       <dragTool :field="field">
-        <component :is="getComponent(field.type)" :field="field">
-          <div v-if="field.children && field.children.length > 0">
-            <FormItem :fields="field.children"></FormItem>
-          </div>
-        </component>
+        <slot>
+          <component :is="getComponent(field.type)" :field="field">
+            <div v-if="field.children && field.children.length > 0">
+              <FormItem :fields="field.children"></FormItem>
+            </div>
+          </component>
+        </slot>
       </dragTool>
     </el-col>
   </el-row>
@@ -46,6 +48,9 @@ const componentMap = {
 }
 
 const getComponent = (type: ComponentType) => {
+  if (typeof type === 'function') {
+    return type
+  }
   return componentMap[type]
 }
 </script>
