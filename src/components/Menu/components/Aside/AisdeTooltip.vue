@@ -1,25 +1,28 @@
 <template>
   <div class="aisde-tooltip">
     <div class="aisde-tooltip-item">
-      <el-tooltip effect="dark" content="组件" placement="right">
-        <el-icon :size="24"><Grid /></el-icon>
+      <el-tooltip effect="dark" content="组件列表" placement="right">
+        <el-icon :size="24" @click="ChangeActiveName('ComponentList')"><Grid /></el-icon>
       </el-tooltip>
     </div>
     <div class="aisde-tooltip-item">
-      <el-tooltip effect="dark" content="组件" placement="right">
-        <el-icon :size="24"><Menu /></el-icon>
+      <el-tooltip effect="dark" content="国际化管理" placement="right">
+        <el-icon :size="24" @click="ChangeActiveName('LanguageConfig')"><Menu /></el-icon>
       </el-tooltip>
     </div>
-    <div class="aisde-tooltip-item">
-      <el-tooltip effect="dark" content="组件" placement="right">
+    <!-- <div class="aisde-tooltip-item">
+      <el-tooltip effect="dark" content="国际化管理" placement="right">
         <el-icon :size="24"><Reading /></el-icon>
       </el-tooltip>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { inject } from 'vue'
+import type { Ref } from 'vue'
+// const activeName = inject('activeName') as Ref<string>
+const ChangeActiveName = inject('ChangeActiveName') as (name: string) => void
 </script>
 
 <style lang="scss" scoped>

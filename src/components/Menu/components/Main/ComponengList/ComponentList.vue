@@ -7,8 +7,8 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import DefaultMain from '../Main/DefaultMain.vue'
-import OutlineMain from '../Main/OutlineMain.vue'
+import DefaultMain from './DefaultMain.vue'
+import OutlineMain from './OutlineMain.vue'
 </script>
 
 <style lang="scss" scoped></style>

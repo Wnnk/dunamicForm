@@ -1,5 +1,5 @@
 <template>
-  <div class="">Default Main</div>
+  <div class="">国际化</div>
 </template>
 
 <script setup lang="ts">
