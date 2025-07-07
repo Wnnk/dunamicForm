@@ -10,17 +10,12 @@
         <el-icon :size="24" @click="ChangeActiveName('LanguageConfig')"><Menu /></el-icon>
       </el-tooltip>
     </div>
-    <!-- <div class="aisde-tooltip-item">
-      <el-tooltip effect="dark" content="国际化管理" placement="right">
-        <el-icon :size="24"><Reading /></el-icon>
-      </el-tooltip>
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { inject } from 'vue'
-import type { Ref } from 'vue'
+
 // const activeName = inject('activeName') as Ref<string>
 const ChangeActiveName = inject('ChangeActiveName') as (name: string) => void
 </script>
