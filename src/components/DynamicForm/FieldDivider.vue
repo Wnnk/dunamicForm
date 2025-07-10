@@ -1,6 +1,6 @@
 <template>
   <el-form-item v-bind="itemStyle" :prop="field.id">
-    <el-divider>{{ field.props?.label }}</el-divider>
+    <el-divider v-on="field.events || {}">{{ field.props?.label }}</el-divider>
   </el-form-item>
 </template>
 

@@ -1,25 +1,30 @@
 import type { PropType } from 'vue'
 
 export const schemaProps = {
-  formConfig: {
-    type: Object as PropType<FormConfig>,
+  schema: {
+    type: Object as PropType<Schema>,
     required: true,
-    default: () => ({
-      id: '',
-      title: {
-        label: '',
-        fontSize: 16,
-        color: '',
-        align: 'left',
-        fontWeight: 'normal',
-        subLabel: '',
-      },
-    }),
+    default: {},
   },
-  fields: {
-    type: Array as PropType<FieldsType[]>,
-    default: () => [],
-  },
+  // formConfig: {
+  //   type: Object as PropType<FormConfig>,
+  //   required: true,
+  //   default: () => ({
+  //     id: '',
+  //     title: {
+  //       label: '',
+  //       fontSize: 16,
+  //       color: '',
+  //       align: 'left',
+  //       fontWeight: 'normal',
+  //       subLabel: '',
+  //     },
+  //   }),
+  // },
+  // fields: {
+  //   type: Array as PropType<FieldsType[]>,
+  //   default: () => [],
+  // },
   modelValue: {
     type: Object as PropType<Record<string, unknown>>,
     default: () => ({}),

@@ -8,8 +8,10 @@ body {
 
 #app {
   max-width: 1280px;
+  min-width: 100vw;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 0;
   font-weight: normal;
 }
 
@@ -36,6 +38,6 @@ a,
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    padding: 0 0;
   }
 }

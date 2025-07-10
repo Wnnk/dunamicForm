@@ -3,7 +3,7 @@
     <el-input
       v-model.number="localData[field.id]"
       v-bind="field.props"
-      v-on="field.events"
+      v-on="field.events || {}"
       v-if="field.props?.type === 'number'"
     ></el-input>
     <el-input v-else v-model="localData[field.id]" v-bind="field.props"></el-input>
@@ -34,15 +34,6 @@ const itemStyle = computed(() => {
   delete style.prop
   return style
 })
-watch(
-  () => localData.value[field.value.id],
-  (val) => {
-    console.log(typeof val)
-  },
-  {
-    deep: true,
-  },
-)
 </script>
 
 <style lang="scss" scoped></style>

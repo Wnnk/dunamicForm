@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'iconfont'; /* Project id 4967525 */
+  src:
+    url('//at.alicdn.com/t/c/font_4967525_90x46k86ras.woff2?t=1752156226223') format('woff2'),
+    url('//at.alicdn.com/t/c/font_4967525_90x46k86ras.woff?t=1752156226223') format('woff'),
+    url('//at.alicdn.com/t/c/font_4967525_90x46k86ras.ttf?t=1752156226223') format('truetype');
+}
+.iconfont {
+  display: inline-block;
+  font-family: 'iconfont' !important;
+  font-size: 21px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-more:before {
+  content: '\e6ad';
+}
+
+.icon-eye:before {
+  content: '\e661';
+}
+
+.icon-eye-close:before {
+  content: '\e63b';
+}
+
+.icon-row:before {
+  content: '\e602';
+}
+
+.icon-datePicker:before {
+  content: '\ebb1';
+}
+
+.icon-checkbox:before {
+  content: '\e62e';
+}
+
+.icon-dateTimePicker:before {
+  content: '\e62b';
+}
+
+.icon-inputNumber:before {
+  content: '\e681';
+}
+
+.icon-radio:before {
+  content: '\e63a';
+}
+
+.icon-kaiguanguan:before {
+  content: '\e687';
+}
+
+.icon-input:before {
+  content: '\e7da';
+}
+
+.icon-select:before {
+  content: '\e653';
+}
+
+.icon-upload:before {
+  content: '\e603';
+}
+
+.icon-colorPick:before {
+  content: '\e682';
+}
+
+.icon-switch:before {
+  content: '\e6d7';
+}
+
+.icon-divider:before {
+  content: '\e718';
+}

@@ -1,38 +1,263 @@
 <template>
-  <div>
-    <h1>Default Form</h1>
+  <div class="default-form">
+    <AsideMenu :addFields="addFields" :schema="schema" />
     <DynamicForm
-      :formConfig="formConfig"
       v-model:modelValue="formData"
-      :fields="fields"
+      v-model:schema="schema"
       @submit="handleSubmit"
+      ref="dynamicFormRef"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { h, ref } from 'vue'
-import type { FormConfig, FieldsType } from '@/components/DynamicForm/type'
+import { h, ref, watch } from 'vue'
+import type { FieldsType, Schema, ComponentType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import AsideMenu from '@/components/Menu/AsideMenu.vue'
 
-const formConfig = ref<FormConfig>({
-  id: '1',
-  title: {
-    label: 'Basic Form Title',
-    fontSize: '24px',
-    color: 'blue',
-    align: 'center',
-    subLabel: 'This is a sub-label',
-  },
-  layout: {
-    btn: {
-      resetBtn: true,
-      resetBtnText: 'Reset',
+const dynamicFormRef = ref()
+
+const schema = ref<Schema>({
+  formConfig: {
+    id: uuidv4(),
+    title: {
+      label: 'Basic Form Title',
+      fontSize: '24px',
+      color: 'blue',
+      align: 'center',
+      subLabel: 'This is a sub-label',
+    },
+    layout: {
+      btn: {
+        resetBtn: true,
+        resetBtnText: 'Reset',
+      },
     },
   },
+  fields: [
+    {
+      id: uuidv4(),
+      type: 'row',
+      label: '',
+      prop: '',
+      children: [
+        {
+          id: uuidv4(),
+          type: 'input',
+          label: 'Name',
+          prop: 'name',
+          props: {
+            type: 'text',
+            placeholder: 'Please enter your name',
+            disabled: true,
+            prefixIcon: 'User',
+            size: 'small',
+          },
+          colSpan: 12,
+          labelPosition: 'left',
+          labelWidth: 150,
+        },
+        {
+          id: uuidv4(),
+          type: 'select',
+          label: 'Gender',
+          rules: [{ required: true, message: 'Please select your gender' }],
+          prop: 'gender',
+          props: {
+            filterable: true,
+            multiple: true,
+            size: 'large',
+            placeholder: 'Please select your gender',
+            options: [
+              { label: 'Male', value: 'male' },
+              { label: 'Female', value: 'female', disabled: true },
+              { label: 'Other', value: 'other' },
+            ],
+          },
+          colSpan: 12,
+          labelPosition: 'right',
+          labelWidth: 100,
+        },
+        {
+          id: uuidv4(),
+          type: 'input',
+          label: 'Age',
+          events: {
+            change: (value: string | number) => {
+              console.log(value)
+            },
+          },
+          rules: [
+            {
+              validator: (rule: any, value: number) => value > 18,
+              message: 'Please enter a valid age',
+            },
+            { required: true, message: 'Please enter your age' },
+          ],
+          props: {
+            type: 'number',
+            suffixIcon: 'Calendar',
+          },
+          prop: 'age',
+          colSpan: 12,
+          labelPosition: 'right',
+          labelWidth: 100,
+        },
+      ],
+    },
+    {
+      id: uuidv4(),
+      type: 'input',
+      label: 'Email',
+      rules: [
+        { required: true, message: '请输入邮箱', trigger: 'blur' },
+        {
+          pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          message: '请输入正确的邮箱格式',
+          trigger: 'blur',
+        },
+      ],
+      props: {
+        type: 'password',
+        showPassword: true,
+      },
+      prop: 'email',
+      colSpan: 12,
+      labelPosition: 'top',
+      labelWidth: 100,
+    },
+    {
+      id: uuidv4(),
+      type: 'inputNumber',
+      label: '数字输入框',
+      prop: 'inputNumber',
+      events: {
+        change: (currentValue: number | undefined, oldvalue: number | undefined) => {
+          console.log(currentValue, oldvalue)
+        },
+      },
+      props: {
+        min: 0,
+        max: 100,
+        step: 2,
+        precision: 0,
+      },
+      colSpan: 12,
+    },
+    {
+      id: uuidv4(),
+      type: 'radio',
+      label: '单选框',
+      prop: 'radio',
+      props: {
+        options: [
+          { label: 'Option A', value: 'a' },
+          { label: 'Option B', value: 'b' },
+          { label: 'Option C', value: 'c' },
+        ],
+      },
+      colSpan: 12,
+      labelPosition: 'left',
+      labelWidth: 120,
+    },
+    {
+      id: uuidv4(),
+      type: 'checkbox',
+      label: '多选框',
+      prop: 'happly',
+      props: {
+        checkAll: true,
+        options: [
+          { label: '多选 A', value: 'a' },
+          { label: '多选 B', value: 'b' },
+          { label: '多选 C', value: 'c' },
+          { label: '多选 D', value: 'd', disabled: true },
+        ],
+      },
+      colSpan: 20,
+    },
+    {
+      id: uuidv4(),
+      type: 'switch',
+      label: '开关',
+      prop: 'switch',
+      props: {
+        activeText: '开',
+        inactiveText: '关',
+      },
+      colSpan: 4,
+    },
+    {
+      id: uuidv4(),
+      type: 'colorPick',
+      label: '颜色选择器',
+      prop: 'colorPick',
+      props: {
+        showAlpha: true,
+        predefine: ['#ff4500', '#ff8c00'],
+        size: 'large',
+      },
+      colSpan: 4,
+    },
+    {
+      id: uuidv4(),
+      type: 'dateTimePicker',
+      label: '日期时间选择器',
+      prop: 'dateTimePicker',
+      props: {
+        type: 'datetimerange',
+        placeholder: '请选择日期时间',
+        format: 'YYYY/MM/DD HH:mm:ss',
+        startPlaceholder: 'Start date',
+        endPlaceholder: 'End date',
+        dateFormat: 'YYYY/MM/DD ddd',
+        timeFormat: 'A hh:mm:ss',
+      },
+      colSpan: 10,
+    },
+    {
+      id: uuidv4(),
+      type: 'datePicker',
+      label: '日期选择器',
+      prop: 'datePicker',
+      props: {},
+      colSpan: 10,
+    },
+    {
+      id: uuidv4(),
+      type: 'upload',
+      label: '文件上传',
+      prop: 'upload',
+      props: {
+        action: 'http://127.0.0.1:4523/m1/6597638-6303329-default/upload',
+        multiple: true,
+        limit: 3,
+        accept: 'text/plain',
+        name: 'file',
+      },
+    },
+    {
+      id: uuidv4(),
+      type: 'divider',
+      label: '',
+      prop: '',
+      props: {
+        direction: 'horizontal',
+        contentPosition: 'left',
+        label: '分割线',
+      },
+    },
+    {
+      id: uuidv4(),
+      type: () => h('div', { style: 'color: red' }, '~~~自定义组件~~~'),
+      label: '自定义组件',
+    },
+  ],
 })
+
 const handleSubmit = async () => {
   try {
     const response = await axios({
@@ -48,282 +273,108 @@ const handleSubmit = async () => {
   }
 }
 
-const fields = ref<FieldsType[]>([
-  {
-    id: uuidv4(),
-    type: 'row',
-    label: '',
-    prop: '',
-    children: [
-      {
-        id: uuidv4(),
-        type: 'input',
-        label: 'Name',
-        prop: 'name',
-        props: {
-          type: 'text',
-          placeholder: 'Please enter your name',
-          disabled: true,
-          prefixIcon: 'User',
-          size: 'small',
-        },
-        colSpan: 12,
-        labelPosition: 'left',
-        labelWidth: 150,
-      },
-      {
-        id: uuidv4(),
-        type: 'select',
-        label: 'Gender',
-        rules: [{ required: true, message: 'Please select your gender' }],
-        prop: 'gender',
-        props: {
-          filterable: true,
-          multiple: true,
-          size: 'large',
-          placeholder: 'Please select your gender',
-          options: [
-            { label: 'Male', value: 'male' },
-            { label: 'Female', value: 'female', disabled: true },
-            { label: 'Other', value: 'other' },
-          ],
-        },
-        colSpan: 12,
-        labelPosition: 'right',
-        labelWidth: 100,
-      },
-      {
-        id: uuidv4(),
-        type: 'input',
-        label: 'Age',
-        events: {
-          change: (value: string | number) => {
-            console.log(value)
-          },
-        },
-        rules: [
-          {
-            validator: (rule: any, value: number) => value > 18,
-            message: 'Please enter a valid age',
-          },
-          { required: true, message: 'Please enter your age' },
-        ],
-        props: {
-          type: 'number',
-          suffixIcon: 'Calendar',
-        },
-        prop: 'age',
-        colSpan: 12,
-        labelPosition: 'right',
-        labelWidth: 100,
-      },
-    ],
-  },
-  {
-    id: uuidv4(),
-    type: 'input',
-    label: 'Email',
-    rules: [
-      { required: true, message: '请输入邮箱', trigger: 'blur' },
-      {
-        pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        message: '请输入正确的邮箱格式',
-        trigger: 'blur',
-      },
-    ],
-    props: {
-      type: 'password',
-      showPassword: true,
-    },
-    prop: 'email',
-    colSpan: 12,
-    labelPosition: 'top',
-    labelWidth: 100,
-  },
-  {
-    id: uuidv4(),
-    type: 'inputNumber',
-    label: '数字输入框',
-    prop: 'inputNumber',
-    events: {
-      change: (currentValue: number | undefined, oldvalue: number | undefined) => {
-        console.log(currentValue, oldvalue)
-      },
-    },
-    props: {
-      min: 0,
-      max: 100,
-      step: 2,
-      precision: 0,
-    },
-    colSpan: 12,
-  },
-  {
-    id: uuidv4(),
-    type: 'radio',
-    label: '单选框',
-    prop: 'radio',
-    props: {
-      options: [
-        { label: 'Option A', value: 'a' },
-        { label: 'Option B', value: 'b' },
-        { label: 'Option C', value: 'c' },
-      ],
-    },
-    colSpan: 12,
-    labelPosition: 'left',
-    labelWidth: 120,
-  },
-  {
-    id: uuidv4(),
-    type: 'checkbox',
-    label: '多选框',
-    prop: 'happly',
-    props: {
-      checkAll: true,
-      options: [
-        { label: '多选 A', value: 'a' },
-        { label: '多选 B', value: 'b' },
-        { label: '多选 C', value: 'c' },
-        { label: '多选 D', value: 'd', disabled: true },
-      ],
-    },
-    colSpan: 20,
-  },
-  {
-    id: uuidv4(),
-    type: 'switch',
-    label: '开关',
-    prop: 'switch',
-    props: {
-      activeText: '开',
-      inactiveText: '关',
-    },
-    colSpan: 4,
-  },
-  {
-    id: uuidv4(),
-    type: 'colorPick',
-    label: '颜色选择器',
-    prop: 'colorPick',
-    props: {
-      showAlpha: true,
-      predefine: ['#ff4500', '#ff8c00'],
-      size: 'large',
-    },
-    colSpan: 4,
-  },
-  {
-    id: uuidv4(),
-    type: 'dateTimePicker',
-    label: '日期时间选择器',
-    prop: 'dateTimePicker',
-    props: {
-      type: 'datetimerange',
-      placeholder: '请选择日期时间',
-      format: 'YYYY/MM/DD HH:mm:ss',
-      startPlaceholder: 'Start date',
-      endPlaceholder: 'End date',
-      dateFormat: 'YYYY/MM/DD ddd',
-      timeFormat: 'A hh:mm:ss',
-    },
-    colSpan: 10,
-  },
-  {
-    id: uuidv4(),
-    type: 'datePicker',
-    label: '日期选择器',
-    prop: 'datePicker',
-    props: {},
-    colSpan: 10,
-  },
-  {
-    id: uuidv4(),
-    type: 'upload',
-    label: '文件上传',
-    prop: 'upload',
-    props: {
-      action: 'http://127.0.0.1:4523/m1/6597638-6303329-default/upload',
-      multiple: true,
-      limit: 3,
-      accept: 'text/plain',
-      name: 'file',
-    },
-  },
-  {
-    id: uuidv4(),
-    type: 'divider',
-    label: '',
-    prop: '',
-    props: {
-      direction: 'horizontal',
-      contentPosition: 'left',
-      label: '分割线',
-    },
-  },
-  {
-    id: uuidv4(),
-    type: () => h('div', { style: 'color: red' }, '~~~自定义组件~~~'),
-    label: '自定义组件',
-  },
-])
-
-/* 根据field ID获取字段值 */
-// 递归生成表单数据
-// 生成初始 formData 的函数
-function generateFormData(fields: FieldsType[]): Record<string, any> {
-  const formData: Record<string, any> = {}
-  // 递归处理字段配置
-  const processFields = (fieldList: FieldsType[]) => {
+const updateFormData = (
+  fields: FieldsType[],
+  currentFormData: Record<string, any>,
+): Record<string, any> => {
+  // Start with a clean copy of current form data
+  const newFormData = { ...currentFormData }
+  // Collect all current valid field IDs
+  const validFieldIds = new Set<string>()
+  const collectFieldIds = (fieldList: FieldsType[]) => {
     fieldList.forEach((field) => {
       if (field.children) {
-        // 如果是容器型字段（如 row），处理其子字段
-        processFields(field.children)
-      } else if (field.prop) {
-        // 如果是数据字段，初始化值
-        // 这里可以根据 field.type 设置不同的初始值
-        switch (field.type) {
-          case 'input':
-            formData[field.id] = ''
-            break
-          case 'select':
-            formData[field.id] = ''
-            break
-          case 'checkbox':
-            formData[field.id] = []
-            break
-          case 'radio':
-            formData[field.id] = ''
-            break
-          case 'switch':
-            formData[field.id] = false
-            break
-          case 'colorPick':
-            formData[field.id] = ''
-            break
-          case 'dateTimePicker':
-            formData[field.id] = ''
-            break
-          case 'datePicker':
-            formData[field.id] = ''
-            break
-          case 'upload':
-            formData[field.id] = []
-            break
-          case 'inputNumber':
-            formData[field.id] = 0
-            break
-          default:
-            formData[field.id] = null
-        }
+        collectFieldIds(field.children)
+      } else if (field.id) {
+        validFieldIds.add(field.id)
       }
     })
   }
+  collectFieldIds(fields)
 
+  // Clean up deleted fields' data
+  Object.keys(newFormData).forEach((key) => {
+    if (!validFieldIds.has(key)) {
+      delete newFormData[key]
+    }
+  })
+
+  // Initialize new fields while preserving existing values
+  const processFields = (fieldList: FieldsType[]) => {
+    fieldList.forEach((field) => {
+      if (field.children) {
+        processFields(field.children)
+      } else if (field.id) {
+        // Only set default value if the field doesn't exist in formData
+        if (!(field.id in newFormData)) {
+          newFormData[field.id] = getDefaultValue(field.type)
+        }
+        // If the field exists, its value is preserved
+      }
+    })
+  }
   processFields(fields)
-  return formData
+  return newFormData
 }
-const formData = ref(generateFormData(fields.value))
+// 默认值生成器
+function getDefaultValue(type: ComponentType): any {
+  if (typeof type === 'function') {
+    return null
+  }
+  const defaults: Record<string, any> = {
+    input: '',
+    select: '',
+    checkbox: [],
+    radio: '',
+    switch: false,
+    colorPick: '',
+    dateTimePicker: '',
+    datePicker: '',
+    upload: [],
+    inputNumber: 0,
+  }
+  return defaults[type] ?? null
+}
+
+const formData = ref(updateFormData(schema.value.fields, {}))
+
+watch(
+  () => schema.value.fields,
+  (newFields) => {
+    console.log(formData.value)
+    formData.value = updateFormData(newFields, formData.value)
+  },
+  { deep: true },
+)
+
+const addFields = (field: FieldsType) => {
+  const activeField = dynamicFormRef.value.getActiveField()
+  if (activeField && activeField.type === 'row') {
+    const findActiveField = (arr: FieldsType[] = schema.value.fields) => {
+      arr.forEach((item) => {
+        if (item.id === activeField.id) {
+          if (item.children) {
+            item.children.push(field)
+          } else {
+            item.children = [field]
+          }
+        }
+        if (item.children) {
+          findActiveField(item.children)
+        }
+      })
+    }
+    findActiveField()
+  } else {
+    schema.value.fields.push(field)
+  }
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.default-form {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+}
+</style>

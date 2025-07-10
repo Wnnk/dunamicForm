@@ -1,5 +1,5 @@
 <template>
-  <div class="dynamic-form">
+  <div class="dynamic-form" @click.stop="activeFieldId = null">
     <el-form :model="localData" v-bind="formStyle" ref="dynamicFormRef">
       <div class="title" v-if="formConfig.title" :style="titleStyle">
         {{ formConfig.title.label }}
@@ -27,11 +27,13 @@ import _ from 'lodash'
 const props = defineProps(schemaProps)
 const emit = defineEmits(['submit', 'update:modelValue'])
 const formConfig = computed(() => {
-  return props.formConfig
+  return props.schema.formConfig
 })
 const fields = computed(() => {
-  return props.fields
+  return props.schema.fields
 })
+
+const activeFieldId = ref<string | null>(null)
 
 const titleStyle = computed(() => {
   if (!formConfig.value.title) return {}
@@ -45,17 +47,32 @@ const titleStyle = computed(() => {
 
 const localData = ref(_.cloneDeep(props.modelValue))
 
-provide('formConfig', formConfig)
-provide('fields', fields)
-provide('localData', localData)
-
 watch(
-  () => props.modelValue,
-  (val) => {
-    localData.value = { ...val }
+  () => props.schema.fields,
+  (newSchema, oldSchema) => {
+    console.log('fields change', newSchema, oldSchema)
+    const newFields = Object.keys(newSchema).filter((key: string) => {
+      return !oldSchema || key in oldSchema
+    })
+    // 在 localData 中添加新增字段
+    if (newFields.length > 0) {
+      newFields.forEach((field) => {
+        if (!(field in localData.value)) {
+          localData.value[field] = undefined // 或根据 schema 设置默认值
+        }
+      })
+    }
   },
-  { deep: true },
+  { deep: true, immediate: true },
 )
+
+// watch(
+//   () => props.modelValue,
+//   (val) => {
+//     localData.value = { ...val }
+//   },
+//   { deep: true },
+// )
 
 const dynamicFormRef = ref()
 
@@ -94,26 +111,59 @@ const removeField = (id: string, arr: FieldsType[] = fields.value) => {
   })
   return false
 }
-provide('removeField', removeField)
+
+const getActiveField = () => {
+  if (!activeFieldId.value) return null
+  const findField = (id: string, arr: FieldsType[] = fields.value) => {
+    let activeField: FieldsType | null = null
+    arr.forEach((item: FieldsType) => {
+      if (item.id === id) {
+        activeField = item
+        return activeField
+      }
+      if (item.children && item.children.length > 0) {
+        const activeChild = findField(id, item.children)
+        if (activeChild) {
+          activeField = activeChild
+          return activeField
+        }
+      }
+    })
+    return activeField
+  }
+  return findField(activeFieldId.value)
+}
 
 const validate = (...args: any) => {
   return dynamicFormRef.value?.validate(...args)
 }
 
+provide('formConfig', formConfig)
+provide('fields', fields)
+provide('localData', localData)
+provide('removeField', removeField)
+provide('activeFieldId', activeFieldId)
+
 defineExpose({
   getFormValue,
   resetForm,
   removeField,
+  activeFieldId,
   validate,
+  getActiveField,
 })
 </script>
 
 <style lang="scss" scoped>
 .dynamic-form {
-  width: 1200px;
+  flex: 1;
+  padding: 20px;
   border: 1px solid #dcdfe6;
+  max-height: 100vh;
+  overflow: auto;
 }
 .submit-btn {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;

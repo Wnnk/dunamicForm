@@ -3,7 +3,7 @@
     <el-input-number
       v-model="localData[field.id]"
       v-bind="field.props"
-      v-on="field.events"
+      v-on="field.events || {}"
     ></el-input-number>
   </el-form-item>
 </template>

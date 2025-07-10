@@ -15,6 +15,7 @@
         :label="option.label"
         :value="option.value"
         :disabled="option.disabled"
+        v-on="field.events || {}"
       ></el-checkbox>
     </el-checkbox-group>
   </el-form-item>
@@ -44,7 +45,6 @@ const itemStyle = computed(() => {
 })
 
 const localData = inject('localData') as Record<string, any>
-console.log(localData.value)
 const indeterminate = ref(false)
 const checkAll = ref(false)
 

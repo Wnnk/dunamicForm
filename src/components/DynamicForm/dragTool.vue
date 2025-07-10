@@ -3,7 +3,10 @@
 -->
 
 <template>
-  <div class="drag-tool">
+  <div
+    :class="['drag-tool', { active: props.field.id === activeFieldId }]"
+    @click.stop="changeActiveField(props.field.id)"
+  >
     <!-- <div class="drag-mask"></div> -->
     <!-- <div class="drag-left">
       <div class="drag-btn">
@@ -26,7 +29,7 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import type { FieldsType } from './type'
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 const props = defineProps({
   field: {
     type: Object as PropType<FieldsType>,
@@ -34,6 +37,11 @@ const props = defineProps({
   },
 })
 const removeField = inject('removeField') as (id: string) => void
+const activeFieldId = inject('activeFieldId') as Ref<string | null>
+
+const changeActiveField = (fieldId: string) => {
+  activeFieldId.value = fieldId
+}
 </script>
 
 <style lang="scss" scoped>
@@ -50,22 +58,10 @@ const removeField = inject('removeField') as (id: string) => void
   outline: 1px dashed #ccc;
   z-index: 0;
 }
+.active {
+  outline: 1px solid #2e73ff;
+}
 
-// .drag-mask {
-//   z-index: 19;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-// }
-
-// .drag-left {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   z-index: 20;
-// }
 .drag-right {
   position: absolute;
   right: 2px;

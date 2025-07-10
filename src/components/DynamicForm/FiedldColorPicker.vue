@@ -2,7 +2,11 @@
 
 <template>
   <el-form-item v-bind="itemStyle" :prop="field.id">
-    <el-color-picker v-model="localData[field.id]" v-bind="field.props"></el-color-picker>
+    <el-color-picker
+      v-model="localData[field.id]"
+      v-bind="field.props"
+      v-on="field.events || {}"
+    ></el-color-picker>
   </el-form-item>
 </template>
 

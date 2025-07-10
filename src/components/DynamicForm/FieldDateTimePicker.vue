@@ -1,6 +1,7 @@
 <template>
   <el-form-item v-bind="itemStyle" :prop="field.id">
-    <el-date-picker v-model="localData[field.id]" v-bind="field.props"> </el-date-picker>
+    <el-date-picker v-model="localData[field.id]" v-bind="field.props" v-on="field.events || {}">
+    </el-date-picker>
   </el-form-item>
 </template>
 

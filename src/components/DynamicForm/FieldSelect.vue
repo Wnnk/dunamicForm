@@ -4,7 +4,7 @@
 
 <template>
   <el-form-item v-bind="itemStyle" :prop="field.id">
-    <el-select v-model="localData[field.id]" v-bind="field.props">
+    <el-select v-model="localData[field.id]" v-bind="field.props" v-on="field.events || {}">
       <el-option
         v-for="item in field.props?.options"
         :disabled="item.disabled"

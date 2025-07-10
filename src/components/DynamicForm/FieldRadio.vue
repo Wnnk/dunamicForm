@@ -3,7 +3,12 @@
 <template>
   <el-form-item v-bind="itemStyle" :prop="field.id">
     <el-radio-group v-model="localData[field.id]">
-      <el-radio v-for="option in field.props?.options" :key="option.value" :value="option.value">
+      <el-radio
+        v-for="option in field.props?.options"
+        :key="option.value"
+        :value="option.value"
+        v-on="field.events || {}"
+      >
         {{ option.label }}
       </el-radio>
     </el-radio-group>
