@@ -1,21 +1,17 @@
 <template>
   <div class="outline-main">
     <div class="tree-container">
-      <OutlineTreeNode v-for="field in props.schema.fields" :key="field.id" :field="field" />
+      <OutlineTreeNode v-for="field in schema.fields" :key="field.id" :field="field" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Schema } from '@/components/DynamicForm/type'
 import OutlineTreeNode from './OutlineTreeNode.vue'
+import { inject } from 'vue'
+import type { Schema } from '@/components/DynamicForm/type'
 
-const props = defineProps({
-  schema: {
-    type: Object as () => Schema,
-    required: true,
-  },
-})
+const schema = inject('schema') as Schema
 </script>
 
 <style lang="scss" scoped>

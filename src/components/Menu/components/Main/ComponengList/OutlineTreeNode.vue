@@ -1,5 +1,5 @@
 <template>
-  <div class="outline-tree-node">
+  <div class="outline-tree-node" @click="setActiveField(field.id)">
     <div class="tree-label">
       <span v-if="field.type === 'row'">行布局</span>
       <span v-else-if="field.type === 'divider'">分割线</span>
@@ -7,7 +7,7 @@
     </div>
     <div class="tree-more">
       <i class="iconfont icon-eye"></i>
-      <i class="iconfont icon-more"></i>
+      <i class="iconfont icon-more" @click.stop="deleteField(field.id)"></i>
     </div>
   </div>
   <div v-if="field.children && field.children.length > 0" class="tree-children">
@@ -21,12 +21,16 @@
 
 <script setup lang="ts">
 import type { FieldsType } from '@/components/DynamicForm/type'
+import { defineProps, inject } from 'vue'
 const props = defineProps({
   field: {
     type: Object as () => FieldsType,
     required: true,
   },
 })
+
+const deleteField = inject('deleteField') as (id: string) => void
+const setActiveField = inject('setActiveField') as (id: string) => void
 </script>
 
 <style lang="scss" scoped>

@@ -36,16 +36,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import type { FieldsType } from '@/components/DynamicForm/type'
 import { v4 as uuidv4 } from 'uuid'
 
-const props = defineProps({
-  addFields: {
-    type: Function,
-    required: true,
-  },
-})
+// const props = defineProps({
+//   addFields: {
+//     type: Function,
+//     required: true,
+//   },
+// })
+const addFields = inject('addFields') as (field: FieldsType) => void
 
 const handleAddField = (item: Omit<FieldsType, 'id'>) => {
   const id = uuidv4()
@@ -53,7 +54,7 @@ const handleAddField = (item: Omit<FieldsType, 'id'>) => {
     ...item,
     id,
   }
-  props.addFields(newField)
+  addFields(newField)
 }
 type List = {
   icon: string

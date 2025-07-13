@@ -134,6 +134,10 @@ const getActiveField = () => {
   return findField(activeFieldId.value)
 }
 
+const setActiveField = (id: string) => {
+  activeFieldId.value = id
+}
+
 const validate = (...args: any) => {
   return dynamicFormRef.value?.validate(...args)
 }
@@ -151,6 +155,7 @@ defineExpose({
   activeFieldId,
   validate,
   getActiveField,
+  setActiveField,
 })
 </script>
 

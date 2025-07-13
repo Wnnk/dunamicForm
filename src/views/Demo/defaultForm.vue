@@ -1,6 +1,11 @@
 <template>
   <div class="default-form">
-    <AsideMenu :addFields="addFields" :schema="schema" />
+    <AsideMenu
+      :addFields="addFields"
+      :schema="schema"
+      :deleteField="deleteField"
+      :setActiveField="setActiveField"
+    />
     <DynamicForm
       v-model:modelValue="formData"
       v-model:schema="schema"
@@ -341,7 +346,6 @@ const formData = ref(updateFormData(schema.value.fields, {}))
 watch(
   () => schema.value.fields,
   (newFields) => {
-    console.log(formData.value)
     formData.value = updateFormData(newFields, formData.value)
   },
   { deep: true },
@@ -368,6 +372,23 @@ const addFields = (field: FieldsType) => {
   } else {
     schema.value.fields.push(field)
   }
+}
+
+const deleteField = (id: string) => {
+  const findField = (arr: FieldsType[] = schema.value.fields) => {
+    arr.forEach((item, index) => {
+      if (item.id === id) {
+        arr.splice(index, 1)
+      } else if (item.children) {
+        findField(item.children)
+      }
+    })
+  }
+  findField()
+}
+
+const setActiveField = (id: string) => {
+  dynamicFormRef.value.setActiveField(id)
 }
 </script>
 
