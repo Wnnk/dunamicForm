@@ -11,19 +11,32 @@
       v-model:schema="schema"
       @submit="handleSubmit"
       ref="dynamicFormRef"
+      class="dynamic-form"
     />
+    <FormConfig :schema="schema" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { h, ref, watch } from 'vue'
+import { h, ref, watch, watchEffect, computed, provide } from 'vue'
 import type { FieldsType, Schema, ComponentType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import AsideMenu from '@/components/Menu/AsideMenu.vue'
+import FormConfig from '@/components/FormConfig/FormConfig.vue'
 
 const dynamicFormRef = ref()
+
+const currentActiveField = computed(() => {
+  if (dynamicFormRef.value) {
+    return dynamicFormRef.value.getActiveField()
+  } else {
+    return null
+  }
+})
+
+provide('currentActiveField', currentActiveField)
 
 const schema = ref<Schema>({
   formConfig: {
@@ -141,7 +154,7 @@ const schema = ref<Schema>({
       prop: 'inputNumber',
       events: {
         change: (currentValue: number | undefined, oldvalue: number | undefined) => {
-          console.log(currentValue, oldvalue)
+          console.log('设定的change事件', currentValue, oldvalue)
         },
       },
       props: {
@@ -390,12 +403,21 @@ const deleteField = (id: string) => {
 const setActiveField = (id: string) => {
   dynamicFormRef.value.setActiveField(id)
 }
+
+const updateSchema = (newSchema: Schema) => {
+  schema.value = newSchema
+  return
+}
 </script>
 
 <style lang="scss" scoped>
 .default-form {
-  width: 100vw;
+  max-width: 100vw;
   display: flex;
   align-items: center;
 }
+// .dynamic-form {
+//   flex: 1;
+//   overflow-y: overlay;
+// }
 </style>

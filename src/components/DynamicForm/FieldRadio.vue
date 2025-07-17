@@ -2,7 +2,7 @@
 
 <template>
   <el-form-item v-bind="itemStyle" :prop="field.id">
-    <el-radio-group v-model="localData[field.id]">
+    <el-radio-group v-model="localData[field.id]" v-bind="field.props || {}">
       <el-radio
         v-for="option in field.props?.options"
         :key="option.value"

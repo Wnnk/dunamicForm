@@ -1,5 +1,5 @@
 <template>
-  <div class="outline-tree-node" @click="setActiveField(field.id)">
+  <div :class="['outline-tree-node', $attrs.class]" @click="setActiveField(field.id)">
     <div class="tree-label">
       <span v-if="field.type === 'row'">行布局</span>
       <span v-else-if="field.type === 'divider'">分割线</span>
@@ -7,10 +7,10 @@
     </div>
     <div class="tree-more">
       <i class="iconfont icon-eye"></i>
-      <i class="iconfont icon-more" @click.stop="deleteField(field.id)"></i>
+      <i class="iconfont icon-delete" @click.stop="deleteField(field.id)"></i>
     </div>
   </div>
-  <div v-if="field.children && field.children.length > 0" class="tree-children">
+  <div v-if="field.children && field.children.length > 0" :class="['tree-children', $attrs.class]">
     <outline-tree-node
       v-for="childField in field.children"
       :key="childField.id"
@@ -49,6 +49,10 @@ const setActiveField = inject('setActiveField') as (id: string) => void
     background-color: rgba(46, 115, 255, 0.05);
   }
 }
+.node-active {
+  color: #2e73ff;
+}
+
 .tree-label {
   display: flex;
   align-items: center;

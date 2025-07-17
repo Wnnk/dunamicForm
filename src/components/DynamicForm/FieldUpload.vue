@@ -4,10 +4,11 @@
       class="filed-upload"
       v-if="field.props?.accept === 'image/*'"
       v-on="field.events || {}"
+      v-bind="field.props || {}"
     >
       <el-icon class="upload-icon"><Plus /></el-icon>
     </el-upload>
-    <el-upload v-else v-on="field.events || {}">
+    <el-upload v-else v-on="field.events || {}" v-bind="field.props || {}">
       <el-button type="primary">上传</el-button>
     </el-upload>
   </el-form-item>

@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { ref, provide } from 'vue'
-import type { PropType } from 'vue'
+
 import ComponentList from './components/Main/ComponengList/ComponentList.vue'
 import LanguageConfig from './components/Main/LanguageConfig/LanguageConfig.vue'
 import AisdeTooltip from './components/Aside/AisdeTooltip.vue'

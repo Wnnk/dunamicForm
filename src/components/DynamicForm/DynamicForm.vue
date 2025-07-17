@@ -33,7 +33,7 @@ const fields = computed(() => {
   return props.schema.fields
 })
 
-const activeFieldId = ref<string | null>(null)
+const activeFieldId = ref<string | null>(fields.value[0].id)
 
 const titleStyle = computed(() => {
   if (!formConfig.value.title) return {}
@@ -165,7 +165,8 @@ defineExpose({
   padding: 20px;
   border: 1px solid #dcdfe6;
   max-height: 100vh;
-  overflow: auto;
+  box-sizing: border-box;
+  overflow: overlay;
 }
 .submit-btn {
   margin-top: 20px;
