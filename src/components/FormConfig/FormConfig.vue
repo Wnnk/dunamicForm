@@ -16,7 +16,7 @@
         </div>
       </header>
       <main class="config-main">
-        <FormProps v-if="curenConfig === 'formProps'" @updateSchema="$emit('updateSchema')" />
+        <FormProps v-if="curenConfig === 'formProps'" />
         <FormLayout :form-config="schema?.formConfig" v-if="curenConfig === 'formLayout'" />
       </main>
     </section>

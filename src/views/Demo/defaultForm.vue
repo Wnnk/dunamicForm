@@ -1,19 +1,29 @@
 <template>
   <div class="default-form">
-    <AsideMenu
-      :addFields="addFields"
-      :schema="schema"
-      :deleteField="deleteField"
-      :setActiveField="setActiveField"
-    />
-    <DynamicForm
-      v-model:modelValue="formData"
-      v-model:schema="schema"
-      @submit="handleSubmit"
-      ref="dynamicFormRef"
-      class="dynamic-form"
-    />
-    <FormConfig :schema="schema" />
+    <el-container>
+      <el-aside>
+        <AsideMenu
+          :addFields="addFields"
+          :schema="schema"
+          :deleteField="deleteField"
+          :setActiveField="setActiveField"
+        />
+      </el-aside>
+      <el-container>
+        <el-header><TopTool v-model:schema="schema" /></el-header>
+        <el-main>
+          <DynamicForm
+            v-model:modelValue="formData"
+            v-model:schema="schema"
+            @submit="handleSubmit"
+            ref="dynamicFormRef"
+            class="dynamic-form"
+          />
+        </el-main>
+      </el-container>
+
+      <el-aside><FormConfig :schema="schema" /></el-aside>
+    </el-container>
   </div>
 </template>
 
@@ -25,6 +35,7 @@ import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import AsideMenu from '@/components/Menu/AsideMenu.vue'
 import FormConfig from '@/components/FormConfig/FormConfig.vue'
+import TopTool from '@/components/TopTool/TopTool.vue'
 
 const dynamicFormRef = ref()
 
@@ -48,11 +59,10 @@ const schema = ref<Schema>({
       align: 'center',
       subLabel: 'This is a sub-label',
     },
-    layout: {
-      btn: {
-        resetBtn: true,
-        resetBtnText: 'Reset',
-      },
+    layout: {},
+    btn: {
+      resetBtn: true,
+      resetBtnText: 'Reset',
     },
   },
   fields: [

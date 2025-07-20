@@ -8,10 +8,10 @@
       <form-item :fields="fields"></form-item>
       <el-form-item class="submit-btn">
         <el-button type="primary" @click="handleSubmit">{{
-          formConfig.layout?.btn?.submitBtnText || '提交'
+          formConfig.btn?.submitBtnText || '提交'
         }}</el-button>
-        <el-button type="default" v-if="formConfig.layout?.btn?.resetBtn" @click="resetForm">{{
-          formConfig.layout.btn.resetBtnText || '重置'
+        <el-button type="default" v-if="formConfig.btn?.resetBtn" @click="resetForm">{{
+          formConfig.btn.resetBtnText || '重置'
         }}</el-button>
       </el-form-item>
     </el-form>

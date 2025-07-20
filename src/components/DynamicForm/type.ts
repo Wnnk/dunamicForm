@@ -42,6 +42,7 @@ export interface FormConfig {
   title?: TitleType // 表单标题
   layout?: LayoutType // 表单布局
   submit?: submitType // 表单提交
+  btn?: BtnType
 }
 
 export interface TitleType {
@@ -58,7 +59,6 @@ type LayoutType = {
   labelPosition?: 'top' | 'left' | 'right'
   size?: 'large' | 'default' | 'small'
   disabled?: boolean
-  btn?: BtnType
 }
 
 export type FieldsType = {
