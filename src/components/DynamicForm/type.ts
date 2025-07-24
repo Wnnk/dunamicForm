@@ -67,7 +67,7 @@ export type FieldsType = {
   label: string // 字段标签
   prop?: string // el-form-item的prop属性
   props?: PropsType // 组件字段属性
-  events?: Partial<EventsType[ComponentType]> // 组件事件
+  events?: Partial<EventsType[ComponentTypeKey]> // 组件事件
   colSpan?: number
   visible?: true | false
   disabled?: boolean
@@ -92,7 +92,22 @@ export type ComponentType =
   | 'upload'
   | 'divider'
   | 'inputNumber'
-  | ((...args: any[]) => any)
+  | 'col'
+  | ((...args: unknown[]) => unknown)
+
+type ComponentTypeKey =
+  | 'input'
+  | 'select'
+  | 'row'
+  | 'radio'
+  | 'checkbox'
+  | 'switch'
+  | 'colorPick'
+  | 'dateTimePicker'
+  | 'datePicker'
+  | 'upload'
+  | 'divider'
+  | 'inputNumber'
 
 type PropsType = {
   [key: string]: string | number | boolean | undefined | OptionsType[] | string[]
@@ -113,9 +128,9 @@ export type EventsType = {
     clear?: () => void
   }
   select: {
-    change?: (value: any) => void
+    change?: (value: unknown) => void
     visibleChange?: (visible: boolean) => void
-    removeTag?: (tagValue: any) => void
+    removeTag?: (tagValue: unknown) => void
     clear?: () => void
     bulr?: (event: FocusEvent) => void
     focus?: (event: FocusEvent) => void

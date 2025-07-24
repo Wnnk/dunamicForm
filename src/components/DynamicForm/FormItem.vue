@@ -45,6 +45,7 @@ const componentMap = {
   upload: defineAsyncComponent(() => import('./FieldUpload.vue')),
   divider: defineAsyncComponent(() => import('./FieldDivider.vue')),
   inputNumber: defineAsyncComponent(() => import('./FieldInputNumber.vue')),
+  col: defineAsyncComponent(() => import('./FieldCol.vue')),
 }
 
 const getComponent = (type: ComponentType) => {

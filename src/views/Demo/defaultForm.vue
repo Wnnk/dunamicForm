@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { h, ref, watch, watchEffect, computed, provide } from 'vue'
+import { h, ref, watch, computed, provide } from 'vue'
 import type { FieldsType, Schema, ComponentType } from '@/components/DynamicForm/type'
 import DynamicForm from '@/components/DynamicForm/DynamicForm.vue'
 import axios from 'axios'
@@ -70,69 +70,84 @@ const schema = ref<Schema>({
       id: uuidv4(),
       type: 'row',
       label: '',
-      prop: '',
       children: [
         {
           id: uuidv4(),
-          type: 'input',
-          label: 'Name',
-          prop: 'name',
-          props: {
-            type: 'text',
-            placeholder: 'Please enter your name',
-            disabled: true,
-            prefixIcon: 'User',
-            size: 'small',
-          },
+          type: 'col',
+          label: '',
           colSpan: 12,
-          labelPosition: 'left',
-          labelWidth: 150,
-        },
-        {
-          id: uuidv4(),
-          type: 'select',
-          label: 'Gender',
-          rules: [{ required: true, message: 'Please select your gender' }],
-          prop: 'gender',
-          props: {
-            filterable: true,
-            multiple: true,
-            size: 'large',
-            placeholder: 'Please select your gender',
-            options: [
-              { label: 'Male', value: 'male' },
-              { label: 'Female', value: 'female', disabled: true },
-              { label: 'Other', value: 'other' },
-            ],
-          },
-          colSpan: 12,
-          labelPosition: 'right',
-          labelWidth: 100,
-        },
-        {
-          id: uuidv4(),
-          type: 'input',
-          label: 'Age',
-          events: {
-            change: (value: string | number) => {
-              console.log(value)
-            },
-          },
-          rules: [
+          children: [
             {
-              validator: (rule: any, value: number) => value > 18,
-              message: 'Please enter a valid age',
+              id: uuidv4(),
+              type: 'input',
+              label: 'Name',
+              prop: 'name',
+              props: {
+                type: 'text',
+                placeholder: 'Please enter your name',
+                disabled: true,
+                prefixIcon: 'User',
+                size: 'small',
+              },
+              colSpan: 24,
+              labelPosition: 'left',
+              labelWidth: 150,
             },
-            { required: true, message: 'Please enter your age' },
+            {
+              id: uuidv4(),
+              type: 'select',
+              label: 'Gender',
+              rules: [{ required: true, message: 'Please select your gender' }],
+              prop: 'gender',
+              props: {
+                filterable: true,
+                multiple: true,
+                size: 'large',
+                placeholder: 'Please select your gender',
+                options: [
+                  { label: 'Male', value: 'male' },
+                  { label: 'Female', value: 'female', disabled: true },
+                  { label: 'Other', value: 'other' },
+                ],
+              },
+              colSpan: 24,
+              labelPosition: 'right',
+              labelWidth: 100,
+            },
           ],
-          props: {
-            type: 'number',
-            suffixIcon: 'Calendar',
-          },
-          prop: 'age',
+        },
+        {
+          id: uuidv4(),
+          type: 'col',
+          label: '',
           colSpan: 12,
-          labelPosition: 'right',
-          labelWidth: 100,
+          children: [
+            {
+              id: uuidv4(),
+              type: 'input',
+              label: 'Age',
+              events: {
+                change: (value: string | number) => {
+                  console.log(value)
+                },
+              },
+              rules: [
+                {
+                  validator: (rule: any, value: number) => value > 18,
+                  message: 'Please enter a valid age',
+                },
+                { required: true, message: 'Please enter your age' },
+              ],
+              props: {
+                type: 'number',
+                suffixIcon: 'Calendar',
+              },
+              prop: 'age',
+              colSpan: 24,
+              labelPosition: 'right',
+              labelWidth: 100,
+            },
+          ],
         },
       ],
     },
@@ -412,11 +427,6 @@ const deleteField = (id: string) => {
 
 const setActiveField = (id: string) => {
   dynamicFormRef.value.setActiveField(id)
-}
-
-const updateSchema = (newSchema: Schema) => {
-  schema.value = newSchema
-  return
 }
 </script>
 

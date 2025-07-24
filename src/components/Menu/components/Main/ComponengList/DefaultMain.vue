@@ -40,12 +40,6 @@ import { inject, ref } from 'vue'
 import type { FieldsType } from '@/components/DynamicForm/type'
 import { v4 as uuidv4 } from 'uuid'
 
-// const props = defineProps({
-//   addFields: {
-//     type: Function,
-//     required: true,
-//   },
-// })
 const addFields = inject('addFields') as (field: FieldsType) => void
 
 const handleAddField = (item: Omit<FieldsType, 'id'>) => {
@@ -56,10 +50,24 @@ const handleAddField = (item: Omit<FieldsType, 'id'>) => {
   }
   addFields(newField)
 }
+
+// type List = {
+//   icon: string
+//   name: string
+//   field: Omit<FieldsType, 'id'>
+// }
+type DeepOmitId<T> = T extends (infer U)[]
+  ? DeepOmitId<U>[]
+  : T extends object
+    ? {
+        [K in keyof T as K extends 'id' ? never : K]: DeepOmitId<T[K]>
+      }
+    : T
+
 type List = {
   icon: string
   name: string
-  field: Omit<FieldsType, 'id'>
+  field: DeepOmitId<FieldsType>
 }
 const list = ref<List[]>([
   {
@@ -213,12 +221,69 @@ const list = ref<List[]>([
 
 const layout = ref<List[]>([
   {
-    name: '行',
+    name: '一行一列',
     icon: 'icon-row',
     field: {
       type: 'row',
       label: '',
-      children: [],
+      children: [
+        {
+          type: 'col',
+          label: '',
+          colSpan: 24,
+          children: [],
+        },
+      ],
+    },
+  },
+  {
+    name: '一行两列',
+    icon: 'icon-row2',
+    field: {
+      type: 'row',
+      label: '',
+      children: [
+        {
+          type: 'col',
+          label: '',
+          colSpan: 12,
+          children: [],
+        },
+        {
+          type: 'col',
+          label: '',
+          colSpan: 12,
+          children: [],
+        },
+      ],
+    },
+  },
+  {
+    name: '一行三列',
+    icon: 'icon-row3',
+    field: {
+      type: 'row',
+      label: '',
+      children: [
+        {
+          type: 'col',
+          label: '',
+          colSpan: 8,
+          children: [],
+        },
+        {
+          type: 'col',
+          label: '',
+          colSpan: 8,
+          children: [],
+        },
+        {
+          type: 'col',
+          label: '',
+          colSpan: 8,
+          children: [],
+        },
+      ],
     },
   },
 ])
