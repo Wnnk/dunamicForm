@@ -1,7 +1,8 @@
 <template>
   <div :class="['outline-tree-node', $attrs.class]" @click="setActiveField(field.id)">
     <div class="tree-label">
-      <span v-if="field.type === 'row'">行布局</span>
+      <span v-if="field.type === 'row'">row</span>
+      <span v-else-if="field.type === 'col'">col</span>
       <span v-else-if="field.type === 'divider'">分割线</span>
       <span v-else>{{ field.label }}</span>
     </div>

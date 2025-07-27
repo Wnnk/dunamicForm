@@ -14,7 +14,6 @@ const props = defineProps({
     required: true,
   },
 })
-console.log('col', props.field)
 </script>
 
 <style lang="scss" scoped>

@@ -42,20 +42,49 @@ import { v4 as uuidv4 } from 'uuid'
 
 const addFields = inject('addFields') as (field: FieldsType) => void
 
+// const handleAddField = (item: Omit<FieldsType, 'id'>) => {
+//   const id = uuidv4()
+//   const newField = {
+//     ...item,
+//     id,
+//   }
+
+//   const addChildrenId = (children: FieldsType[] | undefined) => {
+//     if (children) {
+//       children.forEach((child) => {
+//         const childId = uuidv4()
+//         child.id = childId
+//         if (child.children) {
+//           addChildrenId(child.children)
+//         }
+//       })
+//     }
+//   }
+//   addChildrenId(newField.children)
+//   addFields(newField)
+// }
+
 const handleAddField = (item: Omit<FieldsType, 'id'>) => {
-  const id = uuidv4()
+  const generateId = () => uuidv4()
+
+  const addChildrenId = (children: FieldsType[] | undefined): FieldsType[] | undefined => {
+    if (!children) return undefined
+    return children.map((child) => ({
+      ...child,
+      id: generateId(),
+      children: addChildrenId(child.children),
+    }))
+  }
+
   const newField = {
     ...item,
-    id,
+    id: generateId(),
+    children: addChildrenId(item.children),
   }
+
   addFields(newField)
 }
 
-// type List = {
-//   icon: string
-//   name: string
-//   field: Omit<FieldsType, 'id'>
-// }
 type DeepOmitId<T> = T extends (infer U)[]
   ? DeepOmitId<U>[]
   : T extends object

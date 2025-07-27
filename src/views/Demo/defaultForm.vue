@@ -391,7 +391,7 @@ watch(
 
 const addFields = (field: FieldsType) => {
   const activeField = dynamicFormRef.value.getActiveField()
-  if (activeField && activeField.type === 'row') {
+  if (activeField && (activeField.type === 'row' || activeField.type === 'col')) {
     const findActiveField = (arr: FieldsType[] = schema.value.fields) => {
       arr.forEach((item) => {
         if (item.id === activeField.id) {

@@ -66,14 +66,6 @@ watch(
   { deep: true, immediate: true },
 )
 
-// watch(
-//   () => props.modelValue,
-//   (val) => {
-//     localData.value = { ...val }
-//   },
-//   { deep: true },
-// )
-
 const dynamicFormRef = ref()
 
 const formStyle = computed(() => {
@@ -81,7 +73,6 @@ const formStyle = computed(() => {
   const style = {
     ...formConfig.value.layout,
   }
-  delete style.btn
   return style
 })
 
